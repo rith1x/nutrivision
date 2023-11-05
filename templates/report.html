@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="manifest" href="manifest.json" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMI Report</title>
+    <meta name="theme-color" id="tobc" content="#16a085" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=author@400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title" id="title"><span>BMI Report</span></div>
+        <div class="row">
+          <h2>Your BMI is {{ bmi }}</h2>
+        </div>
+        <div class="row">
+          <h2>You are {{ category }}</h2>
+        </div>
+      </div>
+    </div>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Author", sans-serif;
+      }
+      body {
+        background: #fff;
+        overflow: hidden;
+      }
+      ::selection {
+        background: #1abc9c4d;
+      }
+      .container {
+        max-width: 440px;
+        padding: 0 20px;
+        margin: 170px auto;
+        transform: rotatex(45deg) rotatey();
+      }
+      .wrapper {
+        width: 100%;
+        background: #fff;
+        overflow: hidden;
+        border-radius: 21px;
+        /*   display: none; */
+        box-shadow: 0px 4px 15px -5px #33333350;
+      }
+      .wrapper .title {
+        height: 90px;
+        background: {{ color }};
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .row {
+        height: 45px;
+        width: 100%;
+        margin-block: 15px;
+        position: relative;
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </body>
+</html>

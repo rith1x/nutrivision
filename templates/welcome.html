@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
+      integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <style media="screen">
+      div {
+        position: absolute;
+        right: 10px;
+        top: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button type="button" onclick="location.href='{% url 'logout' %}'">
+        Logout
+      </button>
+    </div>
+    Welcome {{ email }}!!
+    <br /><br />
+    <h1>BMI DATA</h1>
+    <p>{{ bmiData }}</p>
+    <button type="button" name="" onclick="location.href='{% url 'create' %}'">
+      Update BMI
+    </button>
+    <br /><br />
+    <h1>CALORIE DATA</h1>
+    <p></p>
+    <button type="button" name="" onclick="location.href='{% url 'calorie' %}'">
+      Update Calorie Intake
+    </button>
+
+    <button onclick="location.href='{% url 'scanner' %}'">Scan a Food</button>
+
+    <canvas id="myChart"></canvas>
+
+    <script>
+      const datay = "{{ calorieData }}";
+      let datam = datay.replace(/&#x27;/g, '"');
+      let datax = JSON.parse(datam);
+      console.log(datax);
+
+      const labels = [];
+      const calories = [];
+
+      datax.forEach((entry) => {
+        labels.push(entry.date);
+        calories.push(entry.calorie);
+      });
+
+      console.log(labels);
+      console.log(calories);
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "My calorie taken",
+            data: calories, // Set the value for today, and 0 for other days
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1,
+          },
+        ],
+      };
+
+      const config = {
+        type: "line",
+        data: data,
+      };
+
+      const ctx = document.getElementById("myChart").getContext("2d");
+      new Chart(ctx, config);
+    </script>
+
+    {% if messg %}
+    <script>
+      alert("{{ messg }}");
+    </script>
+    {% endif %}
+    <script>
+      // Access the JSON data in the 'userdata' variable
+      var bgcode = "{{ user }}";
+      var email = "{{ email }}";
+      console.log(bgcode);
+
+      localStorage.setItem("user", bgcode);
+      localStorage.setItem("email", email);
+    </script>
+  </body>
+</html>

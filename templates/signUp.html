@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="manifest" href="manifest.json" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in</title>
+    <meta name="theme-color" id="tobc" content="#16a085" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=author@400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title" id="title"><span>Signup</span></div>
+        <form action="/postSignUp/" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <i class="fas fa-user" id="icou"></i>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Enter Name"
+              required
+            />
+          </div>
+          <div class="row">
+            <i class="fas fa-user" id="icou"></i>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter Email"
+              required
+            />
+          </div>
+          <div class="row">
+            <i class="fas fa-lock" id="icox"></i
+            ><input
+              type="password"
+              name="pass"
+              id="password"
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+          <div class="row button">
+            <input
+              type="submit"
+              name="submit"
+              onclick="storeUser()"
+              value="Signup"
+              id="submitBtn"
+            />
+          </div>
+          <div class="signup-link" id="signupp">
+            Already Registered? <a href="{% url 'signIn' %}">Login now</a>
+            {% if messg %}
+            <script>
+              alert("{{ messg }}");
+            </script>
+            {% endif %}
+          </div>
+          <div class="signup-linkx">
+            <label for="spw">Show Password</label>
+            <input type="checkbox" id="spw" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Author", sans-serif;
+      }
+      body {
+        background: #fff;
+        overflow: hidden;
+      }
+      ::selection {
+        background: #1abc9c4d;
+      }
+      .container {
+        max-width: 440px;
+        padding: 0 20px;
+        margin: 170px auto;
+        transform: rotatex(45deg) rotatey();
+      }
+      .wrapper {
+        width: 100%;
+        background: #fff;
+        overflow: hidden;
+        border-radius: 21px;
+        /*   display: none; */
+        box-shadow: 0px 4px 15px -5px #33333350;
+      }
+      .wrapper .title {
+        height: 90px;
+        background: #16a085;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .wrapper form {
+        padding: 30px 25px 25px 25px;
+      }
+      .wrapper form .row {
+        height: 45px;
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .wrapper form .row input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        padding-left: 60px;
+        border-radius: 5px;
+        border: 1px solid lightgrey;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+      form .row input:focus {
+        border-color: #16a085;
+        box-shadow: inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25);
+      }
+      form .row input::placeholder {
+        color: #999;
+      }
+
+      .error {
+        color: #f00;
+      }
+      .wrapper form .row i {
+        position: absolute;
+        width: 47px;
+        height: 100%;
+        color: #fff;
+        font-size: 18px;
+        background: #16a085;
+        border: 1px solid #16a085;
+        border-radius: 5px 0 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .wrapper form .pass {
+        margin: -8px 0 20px 0;
+      }
+      .wrapper form .pass a {
+        color: #16a085;
+        font-size: 17px;
+        text-decoration: none;
+      }
+      .wrapper form .pass a:hover {
+        text-decoration: underline;
+      }
+      .wrapper form .button input {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 0px;
+        background: #16a085;
+        border: 1px solid #16a085;
+        cursor: pointer;
+      }
+      form .button input:hover {
+        background: #12876f;
+      }
+      .wrapper form .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 17px;
+      }
+      .wrapper form .signup-link a {
+        color: #16a085;
+        text-decoration: none;
+      }
+      form .signup-link a:hover {
+        text-decoration: underline;
+      }
+      .wrapper form .signup-linkx {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 17px;
+      }
+      .wrapper form .signup-linkx a {
+        color: #16a085;
+        text-decoration: none;
+      }
+      form .signup-linkx a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <script>
+      const showpassCheckbox = document.getElementById("spw");
+
+      const pws = document.getElementById("password");
+      showpassCheckbox.addEventListener("change", function () {
+        if (showpassCheckbox.checked) {
+          pws.type = "text";
+        } else {
+          pws.type = "password";
+        }
+      });
+    </script>
+  </body>
+</html>
