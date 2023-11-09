@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in</title>
-    <meta name="theme-color" id="tobc" content="#16a085" />
+    <meta name="theme-color" id="tobc" content="#0047ab" />
     <link
       href="https://api.fontshare.com/v2/css?f[]=author@400&display=swap"
       rel="stylesheet"
@@ -22,34 +22,41 @@
         <form action="/postSignUp/" method="post">
           {% csrf_token %}
           <div class="row">
-            <i class="fas fa-user" id="icou"></i>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Enter Name"
-              required
-            />
+            <label for="name">Your Fullname</label>
+
+            <input type="text" name="name" id="name" required />
           </div>
           <div class="row">
-            <i class="fas fa-user" id="icou"></i>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter Email"
-              required
-            />
+            <label for="email">Enter Email</label>
+
+            <input type="email" name="email" id="email" required />
           </div>
           <div class="row">
-            <i class="fas fa-lock" id="icox"></i
-            ><input
-              type="password"
-              name="pass"
-              id="password"
-              placeholder="Enter Password"
-              required
-            />
+            <label for="password">Enter a Password</label>
+            <input type="password" name="pass" id="password" required />
+          </div>
+          <div class="split">
+            <div class="row">
+              <label for="age">Age:</label>
+              <input type="number" name="age" id="age" required />
+            </div>
+            <div class="row">
+              <label for="age">Sex: </label>
+              <select name="sex" id="sex">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="split">
+            <div class="row">
+              <label for="height">Height (in cm):</label>
+              <input type="number" name="height" id="height" required />
+            </div>
+            <div class="row">
+              <label for="weight">Weight (in kgs):</label>
+              <input type="number" name="weight" id="weight" required />
+            </div>
           </div>
           <div class="row button">
             <input
@@ -77,107 +84,122 @@
     </div>
     <style>
       * {
-        margin: 0;
         padding: 0;
+        margin: 0;
         box-sizing: border-box;
-        font-family: "Author", sans-serif;
       }
       body {
-        background: #fff;
-        overflow: hidden;
-      }
-      ::selection {
-        background: #1abc9c4d;
-      }
-      .container {
-        max-width: 440px;
-        padding: 0 20px;
-        margin: 170px auto;
-        transform: rotatex(45deg) rotatey();
-      }
-      .wrapper {
+        height: 100dvh;
         width: 100%;
-        background: #fff;
-        overflow: hidden;
-        border-radius: 21px;
-        /*   display: none; */
-        box-shadow: 0px 4px 15px -5px #33333350;
-      }
-      .wrapper .title {
-        height: 90px;
-        background: #16a085;
-        border-radius: 5px 5px 0 0;
-        color: #fff;
-        font-size: 30px;
-        font-weight: 600;
+        font-family: author;
         display: flex;
         align-items: center;
         justify-content: center;
-      }
-      .wrapper form {
-        padding: 30px 25px 25px 25px;
-      }
-      .wrapper form .row {
-        height: 45px;
-        margin-bottom: 15px;
-        position: relative;
-      }
-      .wrapper form .row input {
-        height: 100%;
-        width: 100%;
-        outline: none;
-        padding-left: 60px;
-        border-radius: 5px;
-        border: 1px solid lightgrey;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-      form .row input:focus {
-        border-color: #16a085;
-        box-shadow: inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25);
-      }
-      form .row input::placeholder {
-        color: #999;
-      }
-
-      .error {
-        color: #f00;
-      }
-      .wrapper form .row i {
         position: absolute;
-        width: 47px;
-        height: 100%;
-        color: #fff;
-        font-size: 18px;
-        background: #16a085;
-        border: 1px solid #16a085;
-        border-radius: 5px 0 0 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .wrapper form .pass {
-        margin: -8px 0 20px 0;
-      }
-      .wrapper form .pass a {
-        color: #16a085;
-        font-size: 17px;
-        text-decoration: none;
-      }
-      .wrapper form .pass a:hover {
-        text-decoration: underline;
-      }
-      .wrapper form .button input {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 500;
-        padding-left: 0px;
-        background: #16a085;
-        border: 1px solid #16a085;
-        cursor: pointer;
-      }
-      form .button input:hover {
-        background: #12876f;
+        inset: 0;
+
+        && .container {
+          width: 380px;
+        }
+
+        && .wrapper {
+          width: 100%;
+          background: #fff;
+          overflow: hidden;
+          border: none;
+          border-radius: 31px;
+          /*   display: none; */
+          box-shadow: 0 0 20px -5px #00000050;
+
+          && .title {
+            height: 90px;
+            background: #0047ab;
+            border-radius: 5px 5px 0 0;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          && form {
+            padding: 30px 25px 25px 25px;
+            && .split {
+              display: flex;
+              gap: 15px;
+              width: 100%;
+              align-items: center;
+              justify-content: space-between;
+              && div {
+                width: 100%;
+              }
+            }
+
+            && .row {
+              height: 45px;
+              margin-bottom: 20px;
+              position: relative;
+
+              && input {
+                height: 100%;
+                width: 100%;
+                outline: none;
+                padding-left: 10px;
+                border-radius: 5px;
+                border: 1px solid lightgrey;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                position: relative;
+              }
+
+              && label {
+                position: absolute;
+                left: 6px;
+                top: -9px;
+                font-size: 15px;
+                background-color: #fff;
+                padding-inline: 4px;
+                z-index: 10;
+              }
+
+              && input:focus {
+                border: #0047ab solid 1px;
+              }
+
+              && select {
+                height: 100%;
+                width: 100%;
+                outline: none;
+                padding-left: 10px;
+                border-radius: 5px;
+                font-family: author;
+
+                border: 1px solid lightgrey;
+                font-size: 16px;
+                transition: all 0.3s ease;
+              }
+
+              && select:focus {
+                border-color: #0047ab;
+              }
+
+              && input[type="submit"] {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 500;
+                padding-left: 0px;
+                background: #0047ab;
+                border: 1px solid #0047ab;
+                cursor: pointer;
+              }
+
+              && input[type="submit"]:hover {
+                background: #0e62d8;
+              }
+            }
+          }
+        }
       }
       .wrapper form .signup-link {
         text-align: center;
@@ -185,7 +207,7 @@
         font-size: 17px;
       }
       .wrapper form .signup-link a {
-        color: #16a085;
+        color: #0047ab;
         text-decoration: none;
       }
       form .signup-link a:hover {
@@ -197,7 +219,7 @@
         font-size: 17px;
       }
       .wrapper form .signup-linkx a {
-        color: #16a085;
+        color: #0047ab;
         text-decoration: none;
       }
       form .signup-linkx a:hover {

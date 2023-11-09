@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load static %}{%load mathfilters%}{%load humanize%}
+{% comment %} 
 <html lang="en">
     
 <head>
@@ -62,7 +62,7 @@
                 {%if api.items.0.sodium_mg > 1000%}
                 <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                     <div>
-                        This food contains an high amount of sodium. High Sodium cuases Sever dehydration and water
+                        This food contains an high amount of sodium. High Sodium causes Sever dehydration and water
                         retention.
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 {%if api.items.0.sugar_g > 100%}
                 <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
                     <div>
-                        This food contains an high amount of sugar High Sugar cuases insulin spikes and is a number 1 cause for Obesity.
+                        This food contains an high amount of sugar High Sugar causes insulin spikes and is a number 1 cause for Obesity.
                     </div>
                 </div>
                 {%endif%}
@@ -101,10 +101,10 @@
                             <h4 class="mt-3 mb-4">To burn {{api.items.0.calories}} calories you will have to</h4>
                             <div class="d-flex align-items-center mb-5">
                                 <div class="flex-shrink-0">
-                                    <img src="{% static 'running.png'%}" alt="...">
+                                    <i class="fa-solid fa-person-walking fa-2xl"></i>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h5> Jog </h5>
+                                    <h5>Go for a Jog </h5>
                                     <p>you will have to jog for <strong>
                                         {{api.items.0.calories |div:229|mul:60|floatformat:0}}</strong> Minutes</p>
                                 </div>
@@ -233,7 +233,566 @@
                     document.getElementById('calForm').style.display = "block";
                 }
               </script>
+              <style>
+                body {
+                    background-color: #f6fbf4;
+                  }
+                  
+                  .logo {
+                    width: 13em;
+                    height: 63px;
+                  }
+                  
+                  h1 {
+                    font-weight: 300;
+                  }
+                  
+                  h1 strong {
+                    font-weight: 600;
+                    color: #4b8673;
+                  }
+                  
+                  .inputstyle {
+                    padding: 20px !important;
+                  }
+                  
+                  .whoop {
+                    background-color: #5fd068;
+                    width: 8em;
+                    font-size: 30px !important;
+                    color: #ffffff;
+                  }
+                  
+                  .caloriescont {
+                    background-color: #ffffff;
+                    padding: 30px;
+                  }
+                  
+                  .caloriescont ul {
+                    padding: 0px;
+                  }
+                  
+                  .caloriescont ul li {
+                    list-style: none;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid #efefef;
+                    width: 80%;
+                  }
+                  
+                  .caloriescont h3 {
+                    color: #4b8673;
+                    font-size: 2em;
+                    text-transform: capitalize;
+                    font-weight: 700;
+                  }
+                  
+                  .caloriescont h5 {
+                    color: #4b8673;
+                  }
+                  
+                  .servingsize {
+                    background-color: #000000;
+                    padding: 10px;
+                    color: #ffffff;
+                  }
+                  
+              </style>
+
                
 </body>
 
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome {{ email }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=author@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/2f69883659.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="nav">
+        <div class="logo">Nutrivision</div>
+        <div class="roptions">
+            <a href="#"><i class="fa-solid fa-user"></i><p></p></a>
+            <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+    </div>
+
+        <div class="results">
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center" src="">
+        <img src="" class=" img-responsive logo mb-5 mt-5" />
+         
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <button type="submit" class="picTake" name="submit"><i id="ix" class="fa-solid fa-camera"></i>Take Picture</button>
+            
+        </form>
+        
+       
+        
+        
+        
+
+        
+            
+        {% if image_url %}
+            <img src="{{ MEDIA_URL }}{{ image_url }}" alt="Captured Image">
+        {% endif %}
+        
+        {% if label %}
+            <p>Predicted Label: {{ label }}</p>
+        {% endif %}
+        
+        {% if api %}
+        {%if api == "Oops! there was an error"%}
+        <div class="alert alert-warning"> Oh no! something went wrong.Please try again in sometime. </div>
+        {%else%}
+        <h1>{{api.items.0.name|capfirst}} has a total of <strong> {{api.items.0.calories}} Calories <i class="fa-solid fa-utensils"></i>/100g</strong>
+            {%if api.items.0.calorie > 200%}
+
+            <!-- <img src="{%static 'shocked.png'%}" class="img-responsive" /> -->
+            </i>{%endif%}
+        </h1>
+
+   
+        {%if api.items.0.sodium_mg > 1000%}
+        <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+            <div>
+                This food contains an high amount of sodium. High Sodium causes Sever dehydration and water
+                retention.
+            </div>
+        </div>
+        {%endif%}
+
+        {%if api.items.0.sugar_g > 100%}
+        <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+            <div>
+                This food contains an high amount of sugar High Sugar causes insulin spikes and is a number 1 cause for Obesity.
+            </div>
+        </div>
+        {%endif%}
+
+    </div>
+    <div class="row justify-content-center mt-5 mb-5">
+        <div class="col-md-10 caloriescont rounded" style="background: #FCE5C9;">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h2 class="mt-3 mb-4">Nutritional Values </h2><span></span>
+                    <ul>
+                        <li class="servingsize">Serving Size per 100/Grams <span class="float-end"></span></li>
+                        <li>Carbohydrates: <span class="float-end">{{api.items.0.carbohydrates_total_g}} g</span>
+                        </li>
+                        <li>Cholesterol: <span class="float-end">{{api.items.0.cholesterol_mg}} mg</span></li>
+                        <li>Saturated fat: <span class="float-end">{{api.items.0.fat_saturated_g}} g</span></li>
+                        <li>Total Fat: <span class="float-end">{{api.items.0.fat_total_g}} g</span></li>
+                        <li>Fiber Content: <span class="float-end">{{api.items.0.fiber_g}} g</span></li>
+                        <li>Potassium <span class="float-end">{{api.items.0.potassium_mg}} mg</span></li>
+                        <li>Protein: <span class="float-end">{{api.items.0.protein_g}} g<span></li>
+                        <li>Sodium:<span class="float-end">{{api.items.0.sodium_mg}} mg</span></li>
+                        <li>Sugar: <span class="float-end">{{api.items.0.sugar_g}} g</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mb-5">
+                    <h4 class="mt-3 mb-4">To burn {{api.items.0.calories}} calories you will have to</h4>
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-person-running fa-2xl"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Go for a Jog </h5>
+                            <p>you will have to jog for <strong>
+                                {{api.items.0.calories |div:229|mul:60|floatformat:0}}</strong> Minutes</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="flex-shrink-0">
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.5714 15.0036L15.4286 16.8486C15.4286 16.8486 19.2857 17.6678 19.2857 19.6162C19.2857 21 17.5714 21 17.5714 21H13L10.75 19.75" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.42864 15.0036L8.5715 16.8486C8.5715 16.8486 4.71436 17.6678 4.71436 19.6162C4.71436 21 6.42864 21 6.42864 21H8.50007L10.7501 19.75L13.5001 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 15.9261C3 15.9261 5.14286 15.4649 6.42857 15.0036C7.71429 8.54595 11.5714 9.00721 12 9.00721C12.4286 9.00721 16.2857 8.54595 17.5714 15.0036C18.8571 15.4649 21 15.9261 21 15.9261" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                        </div>
+                        <div class="flex-grow-1 ms-4">
+                            <h5> Do Power Yoga </h5>
+                            <p>you will have to Power Yoga for <strong>
+                                {{api.items.0.calories |div:223|mul:60|floatformat:0}}</strong> Minutes</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-dumbbell fa-2xl"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-4">
+                            <h5>Get a Gym Workout </h5>
+                            <p>you will have to lift weight for <strong>
+                                {{api.items.0.calories |div:483|mul:60|floatformat:0}} </strong> Minutes </p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-person-walking fa-2xl"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-1">
+                            <h5> Go for a Brisk Walk </h5>
+                            <p>you will have to brisk walk for <strong>
+                                {{api.items.0.calories |div:294|mul:60|floatformat:0}} </strong> Minutes</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+            <img src="" alt="">
+
+                <canvas id="myChart" width="400" height="400"></canvas></div>
+        </div>
+       
+
+
+        
+        {%endif%}
+        {%endif%}
+    </div>
+
+</div>
+<div id="calForm" style="display: none;">
+    <form action="/addCal/" method="post" >
+        {% csrf_token %}
+        <div class="field">
+            <p>
+                Calories of {{api.items.0.name|capfirst}}
+            </p>
+            <input type="number" name="calorie" value="{{api.items.0.calories}}" readonly>
+        </div>
+        <div class="field">
+            
+            <input type="number" name="count" placeholder="Enter Consumption amount in grams">
+        </div>
+        <input type="hidden" name="calFood" value="{{api.items.0.calories}}">
+
+        <input type="hidden" name="carbos" value="{{api.items.0.carbohydrates_total_g}}">
+        <input type="hidden" name="choles" value="{{api.items.0.cholesterol_mg}}">
+        <input type="hidden" name="satfat" value="{{api.items.0.fat_saturated_g}}">
+        <input type="hidden" name="totfat" value="{{api.items.0.fat_total_g}}">
+        <input type="hidden" name="fibres" value="{{api.items.0.fiber_g}}">
+        <input type="hidden" name="potass" value="{{api.items.0.potassium_mg}}">
+        <input type="hidden" name="protein" value="{{api.items.0.protein_g}}">
+        <input type="hidden" name="sodium" value="{{api.items.0.sodium_mg}}">
+        <input type="hidden" name="sugars" value="{{api.items.0.sugar_g}}">
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+        <div class="field">
+            <button type="submit">Add Calorie</button>
+        </div>
+
+    </form>
+</div>
+{% if api and api != "Oops! there was an error" %}
+<button class="addfood" id="intake" onclick="addFood()"><i id="ii" class="fa-solid fa-circle-plus"></i><p>Add Intake</p></button>
+{% endif %}
+
+<script>
+    function addFood() {
+        var x = document.getElementById("calForm");
+        x.style.display = "block";
+    }
+</script>
+
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            margin: 0;
+            background-color: #fff7ec;
+            font-family: "Author", sans-serif;
+            background-size: cover;
+        }
+        .nav{
+            height: 70px;
+            background-color: #faebd7bd;
+            backdrop-filter: blur(9px);
+            display: flex;
+            padding-inline: 40px ;
+            border-radius: 0 0 11px 11px;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 3;
+            left: 0;
+        }
+        .logo{
+            font-size: 30px;
+        }
+        .roptions{
+            display: flex;
+            gap: 10px;
+            && a:last-child{
+                text-decoration: none;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgb(199, 113, 0);
+                border: solid 1px;
+                border-radius: 30px;
+                background-color: rgb(255, 215, 163);
+            }
+            && a:first-child{
+                padding-inline: 20px;
+                height: 45px;
+                background-color: rgb(255, 215, 163);
+                border-radius: 30px;
+                display: flex;
+                text-decoration: none;
+                border: solid 1px;
+
+                color: rgb(199, 113, 0);
+
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                display: flex;
+                && p{
+                    font-size: 18px;
+                    margin-bottom:-1px;
+                }
+            }
+
+
+        }
+        .results{
+            width: 90%;
+            background-color:#faebd7bd;
+            backdrop-filter: blur(7px);
+            margin: 120px auto;
+            border-radius: 41px;
+            padding: 40px;
+        }
+        .inputstyle {
+                    padding: 20px !important;
+                  }
+                  
+                  .whoop {
+                    background-color: #5fd068;
+                    width: 8em;
+                    font-size: 30px !important;
+                    color: #ffffff;
+                  }
+                  
+                  .caloriescont {
+                    background-color: #ffffff;
+                    padding: 30px;
+                  }
+                  
+                  .caloriescont ul {
+                    padding: 0px;
+                  }
+                  
+                  .caloriescont ul li {
+                    list-style: none;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid #efefef;
+                    width: 80%;
+                  }
+                  
+                  .caloriescont h3 {
+                    color: #4b8673;
+                    font-size: 2em;
+                    text-transform: capitalize;
+                    font-weight: 700;
+                  }
+                  
+                  .caloriescont h5 {
+                    color: #4b8673;
+                  }
+                  
+                  .servingsize {
+                    background-color: #000000;
+                    padding: 10px;
+                    color: #ffffff;
+                  }
+                   .addfood{
+                        position: fixed;
+                        padding-inline-start: 15px;
+                        padding-right: 25px;
+                        padding-block: 15px;
+                        right: 30px;
+                        bottom: 30px;
+                        border-radius: 36px;
+                        border: none;
+                        /* border: solid 1px; */
+                        background-color: #ffd7a3;
+                        color: rgb(199, 113, 0);
+                        transition: all 0.3s ease-in-out;
+            
+                        font-size: 18px;
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                        && #ii{
+                            font-size: 40px;
+                        transition: all 0.5s .2s ease-in-out;
+            
+                        }
+                        && p{
+                            margin-bottom: -2px;
+                        }
+                        
+                    }
+            
+                    #calForm{
+                        border: none;
+                        width: 380px;
+                        height: 300px;
+                        padding: 20px;
+                        position: fixed;
+                        background-color: #ffd7a380;
+                        backdrop-filter: blur(9px);
+
+                        right: 30px;
+                        bottom: 120px;
+                        border-radius: 31px;
+                        && input {
+                            width: 100%;
+                            height: 60px;
+                            outline: none;
+                            border: none;
+                            padding: 30px;
+                            border-radius: 30px;
+                            margin-bottom: 20px;
+                        }
+                        && button {
+                            width: 100%;
+                            height: 60px;
+                            color: #fff;
+                            font-size: 18px;
+                            outline: none;
+                            background: rgb(199, 113, 0);
+                            border: none;
+                            border-radius: 30px;
+                        }
+                    }
+
+                    .picTake{
+                        position: fixed;
+                        padding-inline-start: 15px;
+                        padding-right: 25px;
+                        padding-block: 15px;
+                        right: 20px;
+                        top: 20px;
+                        border-radius: 36px;
+                        border: none;
+                        /* border: solid 1px; */
+                        background-color: #ffd7a3;
+                        color: rgb(199, 113, 0);
+                        transition: all 0.3s ease-in-out;
+            
+                        font-size: 18px;
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                        && #ix{
+                            font-size: 30px;
+                        transition: all 0.5s .2s ease-in-out;
+            
+                        }
+                        && p{
+                            margin-bottom: -2px;
+                        }
+                    }
+                    
+    </style>
+    <script>
+        const ctx = document.getElementById('myChart');
+        const data = {
+        carb: '{{api.items.0.carbohydrates_total_g}}',
+        cholestral: '{{api.items.0.cholesterol_mg}}',
+        fat: '{{api.items.0.fat_saturated_g}}',
+        saturated_fat: '{{api.items.0.fat_saturated_g}}',
+        total_fat: '{{api.items.0.fat_total_g}}',
+        potassium: '{{api.items.0.potassium_mg}}',
+        protien: '{{api.items.0.protein_g}}',
+        sodium: '{{api.items.0.sodium_mg}}',
+        sugar: '{{api.items.0.sugar_g}}'
+    };
+
+     
+    
+        
+        new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['carbohydrates', 'Cholesterol', 'Saturated fat', 'Total Fat', 'Fiber Content', 'Potassium', 'Protein','Sodium','Sugar'],
+            datasets: [{
+              label: 'Nutritional values of {{api.items.0.name | capfirst}}',
+              backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+              data: [
+                data.carb,
+                data.cholestral,
+                data.fat,
+                data.saturated_fat,
+                data.total_fat,
+                data.potassium,
+                data.protien,
+                data.sodium,
+                data.sugar
+              ],
+              borderWidth: 1
+            }]
+          },
+         
+        });
+
+        function showForm() {
+            document.getElementById('calForm').style.display = "block";
+        }
+      </script>
+</body>
 </html>
