@@ -3,45 +3,300 @@
   <head>
     <meta charset="utf-8" />
     <title></title>
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=author@400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/2f69883659.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
       integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-
-    <style media="screen">
-      div {
-        position: absolute;
-        right: 10px;
-        top: 1px;
-      }
-    </style>
+    
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {% endcomment %}
   </head>
   <body>
-    <div>
-      <button type="button" onclick="location.href='{% url 'logout' %}'">
-        Logout
-      </button>
+    <div class="nav">
+      <div class="logo">Nutrivision</div>
+      <div class="roptions">
+        <a href="#">
+          <i class="fa-solid fa-user"></i>
+          <p>{{ email }}</p>
+        </a>
+        <a href="{% url 'scanner' %}">
+          <i id="ix" class="fa-solid fa-camera"></i>
+          <p>Scan a Food</p>
+        </a>
+        <a href="{% url 'logout' %}">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+        
+      </div>
     </div>
-    Welcome {{ email }}!!
-    <br /><br />
-    <h1>BMI DATA</h1>
-    <p>{{ bmiData }}</p>
-    <button type="button" name="" onclick="location.href='{% url 'create' %}'">
-      Update BMI
-    </button>
-    <br /><br />
-    <h1>CALORIE DATA</h1>
-    <p></p>
-    <button type="button" name="" onclick="location.href='{% url 'calorie' %}'">
-      Update Calorie Intake
-    </button>
+   
+  
+    
+    
+    
+    
+    </div>
+    <div class="results">
+      {% comment %} <div class="box">
+        <h1>BMI DATA</h1>
+        <p>{{ bmiData }}</p>
+        
+      </div> {% endcomment %}
+      <div class="boxes">
+        <div class="box">
+          <h1>Calorie Metrics</h1>
+          <canvas id="calChart" width="400" height="400"></canvas>
+        </div>
+        
+        <div class="boxxl box">
+          
+          <div class="clokn">
+            <div><h1><i class="fa-solid fa-cloud"></i>&nbsp;Cloud Kitchen</h1></div>
+            <div style="display:flex;">
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15px">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Zomato_logo.png/800px-Zomato_logo.png" style="height:80px;width:80px;border-radius:11px">
+                <h3 style="padding-top:5px">Zomato</h3>
+                <button>Find any</button>
 
-    <button onclick="location.href='{% url 'scanner' %}'">Scan a Food</button>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15px">
+                <img src="https://play-lh.googleusercontent.com/A8jF58KO1y2uHPBUaaHbs9zSvPHoS1FrMdrg8jooV9ftDidkOhnKNWacfPhjKae1IA=w240-h480-rw" style="height:80px;width:80px;border-radius:11px">
+                <h3 style="padding-top:5px">Swiggy</h3>
+                <button>Find any</button>
 
-    <canvas id="myChart"></canvas>
+              </div>
 
+
+            </div>
+          
+          
+          
+          </div>
+          {% comment %} <canvas id="calChart" width="400" height="400"></canvas> {% endcomment %}
+        </div>
+      </div>
+
+      <br /><br />
+     
+      <div class="box2">
+        <span class="mover">
+        <h1 id="calorieStatus"></h1>
+
+        <span class="mvx"><h1 id="tdyCal"> </h1> / <h2>{{ ncpd }}</h2></span>
+        </span>
+        <p>Your Calorie Status</p>
+        
+      </div>
+      <br /><br />
+
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        margin: 0;
+        background-color: #fff7ec;
+        font-family: "Author", sans-serif;
+        background-size: cover;
+      }
+      .mover{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .mvx{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      table{
+        height: 200px;
+
+      }
+      .nav {
+        height: 70px;
+        background-color: #faebd7bd;
+        backdrop-filter: blur(9px);
+        display: flex;
+        padding-inline: 40px;
+        border-radius: 0 0 11px 11px;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 3;
+        left: 0;
+      }
+      .boxes{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        gap: 20px;
+        color: black;
+      }
+      .logo {
+        font-size: 30px;
+      }
+      .roptions {
+        display: flex;
+        gap: 10px;
+        && a:last-child {
+          text-decoration: none;
+          width: 45px;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgb(199, 113, 0);
+          border: solid 1px;
+          border-radius: 30px;
+          background-color: transparent;
+        }
+        && a:first-child {
+          padding-inline: 20px;
+          height: 45px;
+          background-color: transparent;
+          border-radius: 30px;
+          display: flex;
+          text-decoration: none;
+          border: solid 1px;
+
+          color: rgb(199, 113, 0);
+
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          display: flex;
+          && p {
+            font-size: 18px;
+            margin-bottom: -1px;
+          color: rgb(199, 113, 0);
+
+          }
+        }
+        && a:nth-child(2){
+          padding-inline: 20px;
+          height: 45px;
+          background-color:transparent;
+          border-radius: 30px;
+          display: flex;
+          text-decoration: none;
+          border: solid 1px;
+
+          color: rgb(199, 113, 0);
+
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          display: flex;
+          && p {
+            font-size: 18px;
+            margin-bottom: -1px;
+          color: rgb(199, 113, 0);
+
+          }
+        }
+      }
+      .results {
+        width: 90%;
+        background-color: #faebd7bd;
+        backdrop-filter: blur(7px);
+        margin: 120px auto;
+        border-radius: 41px;
+        padding: 40px;
+      }
+      
+      .centered-text {
+        font-size: 24px;
+        background-color: none;
+        color: black;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .box {
+        background-color: #fed09240;
+        border-radius: 21px;
+        padding: 20px;
+        text-align: center;
+        width: 350px;
+        height: 380px;
+        left: 45px;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 24px;
+      }
+
+      p {
+        color: #777;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+      .box2 {
+        background-color: #fed09240;
+        border-radius: 21px;
+        padding: 20px;
+        text-align: left;
+        width: 100%;
+        height:80px;
+        border-left: solid 5px #fed092;
+        right: 600px;
+        top: 45px;
+      }
+      .boxx2{
+        width: 300px;
+        height: 380px;
+      }
+      .boxxl{
+        width: 100%;
+        padding: 20px;
+        height: 380px;
+        
+      }
+      .clokn{
+        background: #ffddb3;
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        border-radius: 11px;
+         }
+    </style>
+    <script>
+      function showDetails() {
+        document.getElementById("updateDetail").style.display = "block";
+      }
+    </script>
     <script>
       const datay = "{{ calorieData }}";
       let datam = datay.replace(/&#x27;/g, '"');
@@ -65,8 +320,8 @@
             label: "My calorie taken",
             data: calories, // Set the value for today, and 0 for other days
             fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            tension: 0.1,
+            borderColor: "#C77100",
+            tension: 0.5,
           },
         ],
       };
@@ -78,14 +333,19 @@
 
       const ctx = document.getElementById("myChart").getContext("2d");
       new Chart(ctx, config);
-    </script>
 
-    {% if messg %}
-    <script>
-      alert("{{ messg }}");
-    </script>
-    {% endif %}
-    <script>
+      const defaultCalorie = {{ ncpd }}; // Set the default strong calorie
+      const totalCalorie = calories.slice(-1)[0];
+      document.getElementById("tdyCal").innerText = totalCalorie;
+
+      if (totalCalorie <= defaultCalorie) {
+        document.getElementById("calorieStatus").innerText =
+          "You should take more food";
+      } else if (totalCalorie > defaultCalorie) {
+        document.getElementById("calorieStatus").innerText =
+          "You have reached your limits ";
+      }
+
       // Access the JSON data in the 'userdata' variable
       var bgcode = "{{ user }}";
       var email = "{{ email }}";
@@ -93,6 +353,45 @@
 
       localStorage.setItem("user", bgcode);
       localStorage.setItem("email", email);
+    </script>
+    
+    <script>
+      var per = ((totalCalorie/{{ncpd}})*100).toFixed(2);
+      var rem = (100 - per).toFixed(2);
+      var cpx = document.getElementById("calChart");
+var myChart = new Chart(cpx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Today Calories', 'Your Calorie Limit'],
+    datasets: [{
+      label: 'Today Calories',
+      data: [per,rem],
+      backgroundColor: [
+      '#C77100','#ffd096'
+        
+      ],
+      hoverBackgroundColor: [
+      '#C77100','#ffd096'
+        
+      ],
+      borderColor: [
+      'transparent','transparent'
+      ],
+    }]
+  },
+  options: {
+    responsive: true,
+    cutout: '65%',
+    title: {
+      display: false,
+      text: 'Today Calorie Intake'
+    },
+    legend: {
+      display: false,
+      position: 'top'
+    }
+  }
+});
     </script>
   </body>
 </html>
